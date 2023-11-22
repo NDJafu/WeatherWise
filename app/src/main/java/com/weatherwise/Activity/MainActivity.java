@@ -1,4 +1,4 @@
-package com.weatherwise;
+package com.weatherwise.Activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.weatherwise.R;
+
 import org.jetbrains.annotations.NotNull;
 
 
