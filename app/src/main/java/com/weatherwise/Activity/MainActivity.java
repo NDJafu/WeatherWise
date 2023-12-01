@@ -16,11 +16,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.weatherwise.Class.Country;
 import com.weatherwise.Class.CurrentWeather;
+import com.weatherwise.Class.State;
+import com.weatherwise.utils.utils;
 import com.weatherwise.R;
 import com.weatherwise.helper.GsonRequest;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     Uri currentURI, forecastURI;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
+    // Chứa dữ liệu
+    ArrayList<Country> countries;
+    ArrayList<State> states;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
+        // Lấy dữ liệu countries và states
+        countries = utils.readJson(this, R.raw.countries, Country.class);
+        states = utils.readJson(this, R.raw.states, State.class);
         getLocation();
     }
 
