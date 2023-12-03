@@ -1,61 +1,68 @@
 package com.weatherwise.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.weatherwise.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LineChartActivity extends AppCompatActivity {
 
-    LineChart lineChart;
+    private LineChart lineChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_chart);
 
-        lineChart = (LineChart) findViewById(R.id.linechart);
+        lineChart = new LineChart(this);
+        lineChart.setDrawGridBackground(false);
 
-        ArrayList<String> xAes = new ArrayList<>();
-        ArrayList<Entry> yAesin = new ArrayList<>();
-        ArrayList<Entry> yAecos = new ArrayList<>();
-        double x = 0;
-        int numDataPoint = 1000;
-        for ( int i = 0; i < numDataPoint ; i++){
-            float sinFunction = Float.parseFloat(String.valueOf(Math.sin(x)));
-            float cosFunction = Float.parseFloat(String.valueOf(Math.cos(x)));
-            x = x+ 0.1;
-            yAesin.add(new Entry(sinFunction,i));
-            yAecos.add(new Entry(cosFunction,i));
-            xAes.add(i , String.valueOf(x));
-        }
-        String[] xaxes = new String[xAes.size()];
-        for(int i = 0; i<xAes.size(); i++){
-            xaxes[i] = xAes.get(i).toString();
-        }
+        // Define X and Y axes
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f); // Set intervals between X-axis labels
 
-        ArrayList< LineDataSet> lineDataSet = new ArrayList<>();
+        YAxis yAxis = lineChart.getAxisLeft();
+        yAxis.setDrawGridLines(true);
+        yAxis.setLabelCount(YAxis.YAxisLabelPosition.OUTSIDE_CHART.ordinal());
 
-        LineDataSet lineDataSet1 = new LineDataSet(yAecos,"cos");
-        lineDataSet1.setDrawCircles(false);
-        lineDataSet1.setColor(Color.WHITE);
+        // Add data to the chart
+        LineData lineData = new LineData();
+        LineDataSet dataSet = new LineDataSet(prepareData(), "Precipitation");
+        dataSet.setLineWidth(2f);
+        dataSet.setCircleRadius(4f);
+        lineData.addDataSet(dataSet);
 
-        LineDataSet lineDataSet2 = new LineDataSet(yAesin,"sin");
-        lineDataSet2.setDrawCircles(false);
-        lineDataSet2.setColor(Color.GREEN);
+        lineChart.setData(lineData);
 
-        lineDataSet.add(lineDataSet1);
-        lineDataSet.add(lineDataSet2);
+
+    }
+
+    private List<Entry> prepareData() {
+        List<Entry> data = new ArrayList<>();
+        data.add(new Entry(11f, 3f));
+        data.add(new Entry(12f, 6f));
+        data.add(new Entry(13f, 8f));
+        data.add(new Entry(14f, 12f));
+        data.add(new Entry(15f, 40f));
+        return data;
+    }
+
+
+
+
+
 
 
 
     }
 
-}
